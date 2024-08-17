@@ -117,6 +117,9 @@ class SocialGetCommentErrorState extends SocialAppStates
 
 }
 
+class SocialRemoveCommentsState extends SocialAppStates{}
+
+
 
 
 

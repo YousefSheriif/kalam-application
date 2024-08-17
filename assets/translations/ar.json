@@ -35,8 +35,26 @@
   "love": "احببته ",
   "comments": " تعليق ",
   "comment": " تعليق",
-  "writeComment": "أكتب تعليقا ..."
-
+  "writeComment": "أكتب تعليقا ...",
+  "whatOnMind": "فيم تفكر ...",
+  "docs": "ملفات",
+  "tags": "هاشتاج",
+  "image": "صورة",
+  "allComments": " التعليقات ",
+  "emptyComment": "لا يمكن وضع تعليق فارغ!",
+  "noCommentYet": "لا يوجد تعليقات حتى الان",
+  "kalam": " كلام ",
+  "editProfile": "تعديل الملف الشخصي",
+  "save": "حفظ",
+  "yourName": "اسمك",
+  "emptyName": "لا يمكن ان يكون اسمك فارغا",
+  "yourBio": "سيرتك الذاتية",
+  "emptyBio": "لا يمكن ان تكون سيرتك الذاتية فارغة",
+  "yourPhone": "رقم الهاتف",
+  "emptyPhone": "لا يمكن ان يكون رقم الهاتف فارغ",
+  "createPost": "انشاء منشور",
+  "post": "نشر",
+  "emptyPosts": "الدنيا فاضية لسه ! "
 
 
 

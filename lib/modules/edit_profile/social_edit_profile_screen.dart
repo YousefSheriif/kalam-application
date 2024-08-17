@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/shared/components/components.dart';
@@ -5,6 +6,7 @@ import 'package:social_app/shared/social_cubit/cubit.dart';
 import 'package:social_app/shared/social_cubit/states.dart';
 import 'package:social_app/shared/styles/color.dart';
 import 'package:social_app/shared/styles/iconBroken.dart';
+import 'package:social_app/translations/locale_keys.g.dart';
 
 class EditProfileScreen extends StatelessWidget {
   EditProfileScreen({Key? key}) : super(key: key);
@@ -44,11 +46,12 @@ class EditProfileScreen extends StatelessWidget {
                 navigateBack(context);
               },
               icon: const Icon(
-                IconBroken.Arrow___Left_2,
+
+                Icons.arrow_back,
               ),
             ),
-            title: const Text(
-              'Edit Profile',
+            title: Text(
+              LocaleKeys.editProfile.tr(),
             ),
             actions: [
               InkWell(
@@ -68,7 +71,7 @@ class EditProfileScreen extends StatelessWidget {
                             bio: bioController.text,
                           );
                         },
-                        text: 'Save',
+                        text: LocaleKeys.save.tr(),
                         color: defaultColor,
                         fontSize: 22.0,
                         fontWeight: FontWeight.w600,
@@ -148,8 +151,7 @@ class EditProfileScreen extends StatelessWidget {
                           children: [
                             CircleAvatar(
                               radius: 65.0,
-                              backgroundColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
+                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                               child: CircleAvatar(
                                 radius: 60.0,
                                 backgroundImage: profilePic,  // profileImage == null ? NetworkImage('${userModel.image}'):FileImage(profileImage),
@@ -204,10 +206,13 @@ class EditProfileScreen extends StatelessWidget {
                   defaultTextFormField(
                     controller: nameController,
                     keyboardType: TextInputType.name,
-                    labelText: 'Your name',
+                    labelText: LocaleKeys.yourName.tr(),
                     prefixIcon: IconBroken.User,
                     prefixColor: defaultColor,
-                    validatorString: 'Your name can\'t be empty',
+                    validatorString: LocaleKeys.emptyName.tr(),
+                    textColor: Theme.of(context).textTheme.bodyText1!.color,
+                    labelColor: Theme.of(context).textTheme.bodyText1!.color,
+                    borderColor: Theme.of(context).textTheme.bodyText1!.color,
                   ),
                   const SizedBox(
                     height: 30.0,
@@ -215,10 +220,13 @@ class EditProfileScreen extends StatelessWidget {
                   defaultTextFormField(
                     controller: bioController,
                     keyboardType: TextInputType.text,
-                    labelText: 'Your bio',
+                    labelText: LocaleKeys.yourBio.tr(),
                     prefixIcon: IconBroken.Info_Circle,
                     prefixColor:defaultColor,
-                    validatorString: 'Your bio can\'t be empty',
+                    validatorString: LocaleKeys.emptyBio.tr(),
+                    textColor: Theme.of(context).textTheme.bodyText1!.color,
+                    labelColor: Theme.of(context).textTheme.bodyText1!.color,
+                    borderColor: Theme.of(context).textTheme.bodyText1!.color,
                   ),
                   const SizedBox(
                     height: 30.0,
@@ -226,10 +234,13 @@ class EditProfileScreen extends StatelessWidget {
                   defaultTextFormField(
                     controller: phoneController,
                     keyboardType: TextInputType.phone,
-                    labelText: 'Phone number',
+                    labelText: LocaleKeys.yourPhone.tr(),
                     prefixIcon: IconBroken.Call,
                     prefixColor:defaultColor,
-                    validatorString: 'Your phone number can\'t be empty',
+                    validatorString: LocaleKeys.emptyPhone.tr(),
+                    textColor: Theme.of(context).textTheme.bodyText1!.color,
+                    labelColor: Theme.of(context).textTheme.bodyText1!.color,
+                    borderColor: Theme.of(context).textTheme.bodyText1!.color,
                   ),
                 ],
               ),

@@ -194,13 +194,14 @@ void navigateBack(context)
 void navigateAndFinish(context ,widget)
 {
   Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
+    context,
+    MaterialPageRoute(
         builder:(context) {
           return widget;
         },
       ),
-          (Route<dynamic> route) => false);
+        (Route<dynamic> route) => false,
+  );
 }
 
 

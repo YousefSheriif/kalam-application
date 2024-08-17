@@ -1,8 +1,9 @@
+// new update
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:social_app/models/create_post/create_post_model.dart';
+import 'package:social_app/modules/new_comments_screen/new_comments_screen.dart';
 import 'package:social_app/modules/new_post/new_post_screen.dart';
 import 'package:social_app/shared/components/components.dart';
 import 'package:social_app/shared/social_cubit/cubit.dart';
@@ -20,219 +21,246 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<SocialCubit, SocialAppStates>(
       listener: (context, state) {},
-      builder: (context, state) {
-        return ConditionalBuilder(
-          condition: SocialCubit.get(context).posts.isNotEmpty ,
-          builder: (context) {
-            return SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  // SizedBox(
-                  //   height: 50.0,
-                  //   child: IconButton(
-                  //     onPressed: () {
-                  //       ModeCubit.get(context).changeAppMode();
-                  //     },
-                  //     icon: Icon(
-                  //       Icons.brightness_4_outlined,
-                  //       color: Theme.of(context).textTheme.bodyText1!.color,
-                  //     ),
-                  //   ),
-                  // ),
-                  // IconButton(
-                  //   onPressed: () {
-                  //     navigateTo(context, const TestScreen());
-                  //   },
-                  //   icon: const Icon(
-                  //     Icons.arrow_forward,
-                  //   ),
-                  // ),
-                  // const SizedBox(
-                  //   height: 30.0,
-                  // ),
-                  Card(
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    color: Theme.of(context).textTheme.bodyText2!.color,
-                    elevation: 8.0,
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 8.0,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 23.0,
-                                backgroundImage: NetworkImage(
-                                  '${SocialCubit.get(context).userModel.image}',
-                                ),
+      builder: (context, state)
+      {
+        if (state is SocialGetPostLoadingState) {
+          return const Center(child: CircularProgressIndicator());
+
+        } else
+        {
+          return SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                // SizedBox(
+                //   height: 50.0,
+                //   child: IconButton(
+                //     onPressed: () {
+                //       ModeCubit.get(context).changeAppMode();
+                //     },
+                //     icon: Icon(
+                //       Icons.brightness_4_outlined,
+                //       color: Theme.of(context).textTheme.bodyText1!.color,
+                //     ),
+                //   ),
+                // ),
+                // IconButton(
+                //   onPressed: () {
+                //     navigateTo(context, const TestScreen());
+                //   },
+                //   icon: const Icon(
+                //     Icons.arrow_forward,
+                //   ),
+                // ),
+                // const SizedBox(
+                //   height: 30.0,
+                // ),
+                Card(
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  color: Theme.of(context).textTheme.bodyText2!.color,
+                  elevation: 8.0,
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 8.0,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 23.0,
+                              backgroundImage: NetworkImage(
+                                '${SocialCubit.get(context).userModel.image}',
                               ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Expanded(
-                                child: InkWell(
-                                  onTap: () {
-                                    navigateTo(
-                                      context,
-                                      NewPostScreen(),
-                                    );
-                                  },
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 15.0),
-                                        child: Text(
-                                          'What is on your mind....',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline3!
-                                              .copyWith(
-                                                fontSize: 17.0,
-                                                fontWeight: FontWeight.bold,
-                                                height: 1.4,
-                                              ),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  navigateTo(
+                                    context,
+                                    NewPostScreen(),
+                                  );
+                                },
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 15.0),
+                                      child: Text(
+                                        LocaleKeys.whatOnMind.tr(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline3!
+                                            .copyWith(
+                                          fontSize: 17.0,
+                                          fontWeight: FontWeight.bold,
+                                          height: 1.4,
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10.0,
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: InkWell(
-                                  onTap: () {},
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        IconBroken.Image,
-                                        color: Colors.blue[700],
-                                        size: 25.0,
-                                      ),
-                                      const SizedBox(
-                                        width: 5.0,
-                                      ),
-                                      Text(
-                                        'Image',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline3!
-                                            .copyWith(
-                                              fontSize: 15.0,
-                                            ),
-                                      ),
-                                      const Spacer(),
-                                      Container(
-                                        width: 1,
-                                        height: 35.0,
-                                        color: Colors.grey[400],
-                                      ),
-                                      const SizedBox(width: 18.0),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: InkWell(
-                                  onTap: () {},
-                                  child: Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.tag,
-                                        color: Colors.red,
-                                        size: 27.0,
-                                      ),
-                                      const SizedBox(
-                                        width: 5.0,
-                                      ),
-                                      Text(
-                                        'Tags',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline3!
-                                            .copyWith(
-                                              fontSize: 15.0,
-                                            ),
-                                      ),
-                                      const Spacer(),
-                                      Container(
-                                        width: 1,
-                                        height: 35.0,
-                                        color: Colors.grey[400],
-                                      ),
-                                      const SizedBox(width: 18.0),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              InkWell(
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10.0,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: InkWell(
                                 onTap: () {},
                                 child: Row(
                                   children: [
-                                    const Icon(
-                                      IconBroken.Document,
-                                      color: Colors.green,
+                                    Icon(
+                                      IconBroken.Image,
+                                      color: Colors.blue[700],
                                       size: 25.0,
                                     ),
                                     const SizedBox(
                                       width: 5.0,
                                     ),
                                     Text(
-                                      'Docs',
+                                      LocaleKeys.image.tr(),
                                       style: Theme.of(context)
                                           .textTheme
                                           .headline3!
                                           .copyWith(
-                                            fontSize: 15.0,
-                                          ),
+                                        fontSize: 15.0,
+                                      ),
                                     ),
+                                    const Spacer(),
+                                    Container(
+                                      width: 1,
+                                      height: 35.0,
+                                      color: Colors.grey[400],
+                                    ),
+                                    const SizedBox(width: 18.0),
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {},
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.tag,
+                                      color: Colors.red,
+                                      size: 27.0,
+                                    ),
+                                    const SizedBox(
+                                      width: 5.0,
+                                    ),
+                                    Text(
+                                      LocaleKeys.tags.tr(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline3!
+                                          .copyWith(
+                                        fontSize: 15.0,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    Container(
+                                      width: 1,
+                                      height: 35.0,
+                                      color: Colors.grey[400],
+                                    ),
+                                    const SizedBox(width: 18.0),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {},
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    IconBroken.Document,
+                                    color: Colors.green,
+                                    size: 25.0,
+                                  ),
+                                  const SizedBox(
+                                    width: 5.0,
+                                  ),
+                                  Text(
+                                    LocaleKeys.docs.tr(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline3!
+                                        .copyWith(
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                  ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index)
-                    {
-                      return buildPostItem(SocialCubit.get(context).posts[index], context, index);
-                    },
-                    separatorBuilder: (context, index)
-                    {
-                      return const SizedBox(
-                        height: 10.0,
-                      );
-                    },
-                    itemCount: SocialCubit.get(context).posts.length,
-                  ),
-                ],
-              ),
-            );
-          },
-          fallback: (context) =>
-              const Center(child: CircularProgressIndicator()),
-        );
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                ConditionalBuilder(
+                  condition: SocialCubit.get(context).posts.isNotEmpty,
+                  builder: (BuildContext context) {
+                    return ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index)
+                      {
+                        return buildPostItem(SocialCubit.get(context).posts[index], context, index);
+                      },
+                      separatorBuilder: (context, index)
+                      {
+                        return const SizedBox(
+                          height: 10.0,
+                        );
+                      },
+                      itemCount: SocialCubit.get(context).posts.length,
+                    );
+                  },
+                  fallback: (BuildContext context) {
+                    return Column(
+                      children:  [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical:250.0),
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+
+                              children: [
+                                Text(
+                                  LocaleKeys.emptyPosts.tr(),
+                                  style:const TextStyle(color: Colors.red,fontSize: 24.0,fontWeight: FontWeight.bold),
+                                ),
+                                const Icon(Icons.face_outlined,size: 35.0,),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
+          );
+        }
       },
     );
   }
@@ -296,14 +324,14 @@ class HomeScreen extends StatelessWidget {
                           const Icon(
                             Icons.check_circle,
                             color: Colors.blue,
-                            size: 17.0,
+                            size: 16.0,
                           ),
                         ],
                       ),
                       Text(
                         '${model.dateTime}',
                         style: const TextStyle(
-                          fontSize: 15.0,
+                          fontSize: 14.0,
                           fontWeight: FontWeight.w500,
                           color: Colors.grey,
                           height: 1.4,
@@ -324,16 +352,7 @@ class HomeScreen extends StatelessWidget {
                 )
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 15.0,
-              ),
-              child: Container(
-                width: double.infinity,
-                height: 1.0,
-                color: Colors.grey,
-              ),
-            ),
+            const SizedBox(height: 20.0,),
             Text(
               '${model.postText}',
               style: Theme.of(context).textTheme.bodyText1!.copyWith(
@@ -465,7 +484,7 @@ class HomeScreen extends StatelessWidget {
                               width: 5.0,
                             ),
                             Text(
-                              '120',
+                             '120',// SocialCubit.get(context).postComments[index]['comments'].length,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1!
@@ -543,135 +562,163 @@ class HomeScreen extends StatelessWidget {
                       //   print(comments[0]['comments'][1]['name']);
                       //
                       // }
+                      // navigateTo(context, NewCommentsScreen(index,commentController));
 
-                      showBottomSheet(
-                          context: context,
-                          builder: (value)
-                          {
-                            return Container(
-                              width: double.infinity,
-                              height: double.infinity,
-                              color: Colors.grey[200],
-                              child: Stack(
-                                children:
-                                [
-                                  if(SocialCubit.get(context).postComments[index]['comments'].length>0)
-                                    ListView.separated(
-                                    itemBuilder: (context, commentIndex)
-                                    {
-                                      return Padding(
-                                        padding: const EdgeInsets.all(9.0),
-                                        child: Container(
-                                          padding: const EdgeInsets.all(12.0),
-                                          color: Colors.white,
-                                          child: Row(
-                                            children: [
-                                              CircleAvatar(
-                                                radius: 20.0,
-                                                backgroundImage: NetworkImage(
-                                                  '${SocialCubit.get(context).postComments[commentIndex]['image']}',
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 20,
-                                              ),
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          '${SocialCubit.get(context).postComments[commentIndex]['name']}',
-                                                          style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 17.0, fontWeight: FontWeight.bold,height: 1.4,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 7.0,
-                                                        ),
-                                                        const Icon(
-                                                          Icons.check_circle,
-                                                          color: Colors.blue,
-                                                          size: 14.0,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 5.0,
-                                                    ),
-                                                    Text(
-                                                      '${SocialCubit.get(context).postComments[commentIndex]['commentText']}',
-                                                      style: const TextStyle(fontSize: 17.0, fontWeight: FontWeight.w500,color: Colors.black, height: 1.4,),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    separatorBuilder: (context, commentIndex)
-                                    {
-                                      return const SizedBox(height: 1.0,);
-                                    },
-                                    itemCount: SocialCubit.get(context).postComments.length,
-                                    // physics: const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                  ),
 
-                                  Column(
-                                    children: [
-                                      Container(
-                                        width: double.infinity,
-                                        height: 20.0,
-                                        color: Colors.grey[100],
-                                        child: const Icon(Icons.menu,size: 20.0,color: Colors.grey,),
-                                      ),
-                                      const Spacer(),
-                                      Container(
-                                        padding: const EdgeInsets.all(8.0),
-                                        color: Colors.grey[100],
-                                        child: TextFormField(
-                                          controller: commentController,
-                                          validator: (val) {
-                                            if (val!.isEmpty) {
-                                              return "can't put empty comment!";
-                                            }
-                                            return null;
-                                          },
-                                          decoration: InputDecoration(
-                                            prefixIcon: IconButton(
-                                              onPressed: ()
-                                              {
-                                                SocialCubit.get(context).commentPosts(SocialCubit.get(context).postsIds[index], commentController.text);
-                                              },
-                                              icon: const Icon(
-                                                Icons.arrow_circle_left_rounded,
-                                                size: 35.0,
-                                                color: Colors.blueAccent,
-                                              ),
-                                            ),
-                                            hintText: 'write a comment..',
-                                            hintStyle: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(30.0),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
 
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
-                          });
+
+                      SocialCubit.get(context).getComments(SocialCubit.get(context).postsIds[index]).then((value)
+                      {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => NewCommentsScreen(postIndex: index),
+                        //   ),
+                        // );
+
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder:(context)
+                            {
+                              return  NewCommentsScreen(postIndex: index);
+                            },
+                          ),
+                              (Route<dynamic> route) => false,
+                        );
+
+                      });
+
+
+
+                      // showBottomSheet(
+                      //     context: context,
+                      //     builder: (value)
+                      //     {
+                      //       return Container(
+                      //         width: double.infinity,
+                      //         height: double.infinity,
+                      //         color: Colors.grey[200],
+                      //         child: Stack(
+                      //           children:
+                      //           [
+                      //             if(SocialCubit.get(context).postComments[index]['comments'].length>0)
+                      //               ListView.separated(
+                      //               itemBuilder: (context, commentIndex)
+                      //               {
+                      //                 return Padding(
+                      //                   padding: const EdgeInsets.all(9.0),
+                      //                   child: Container(
+                      //                     padding: const EdgeInsets.all(12.0),
+                      //                     color: Colors.white,
+                      //                     child: Row(
+                      //                       children: [
+                      //                         CircleAvatar(
+                      //                           radius: 20.0,
+                      //                           backgroundImage: NetworkImage(
+                      //                             '${SocialCubit.get(context).postComments[index]['comments'][commentIndex]['image']}',
+                      //                           ),
+                      //                         ),
+                      //                         const SizedBox(
+                      //                           width: 20,
+                      //                         ),
+                      //                         Expanded(
+                      //                           child: Column(
+                      //                             crossAxisAlignment:
+                      //                             CrossAxisAlignment.start,
+                      //                             children: [
+                      //                               Row(
+                      //                                 children: [
+                      //                                   Text(
+                      //                                     '${SocialCubit.get(context).postComments[index]['comments'][commentIndex]['name']}',
+                      //                                     style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 17.0, fontWeight: FontWeight.bold,height: 1.4,
+                      //                                     ),
+                      //                                   ),
+                      //                                   const SizedBox(
+                      //                                     width: 7.0,
+                      //                                   ),
+                      //                                   const Icon(
+                      //                                     Icons.check_circle,
+                      //                                     color: Colors.blue,
+                      //                                     size: 14.0,
+                      //                                   ),
+                      //                                 ],
+                      //                               ),
+                      //                               const SizedBox(
+                      //                                 height: 5.0,
+                      //                               ),
+                      //                               Text(
+                      //                                 '${SocialCubit.get(context).postComments[index]['comments'][commentIndex]['commentText']}',
+                      //                                 style: const TextStyle(fontSize: 17.0, fontWeight: FontWeight.w500,color: Colors.black, height: 1.4,),
+                      //                               ),
+                      //                             ],
+                      //                           ),
+                      //                         ),
+                      //                       ],
+                      //                     ),
+                      //                   ),
+                      //                 );
+                      //               },
+                      //               separatorBuilder: (context, commentIndex)
+                      //               {
+                      //                 return const SizedBox(height: 1.0,);
+                      //               },
+                      //               itemCount: SocialCubit.get(context).postComments[index]['comments'].length,
+                      //               // physics: const NeverScrollableScrollPhysics(),
+                      //               shrinkWrap: true,
+                      //             ),
+                      //
+                      //             Column(
+                      //               children: [
+                      //                 Container(
+                      //                   width: double.infinity,
+                      //                   height: 20.0,
+                      //                   color: Colors.grey[100],
+                      //                   child: const Icon(Icons.menu,size: 20.0,color: Colors.grey,),
+                      //                 ),
+                      //                 const Spacer(),
+                      //                 Container(
+                      //                   padding: const EdgeInsets.all(8.0),
+                      //                   color: Colors.grey[100],
+                      //                   child: TextFormField(
+                      //                     controller: commentController,
+                      //                     validator: (val) {
+                      //                       if (val!.isEmpty) {
+                      //                         return "can't put empty comment!";
+                      //                       }
+                      //                       return null;
+                      //                     },
+                      //                     decoration: InputDecoration(
+                      //                       prefixIcon: IconButton(
+                      //                         onPressed: ()
+                      //                         {
+                      //                           SocialCubit.get(context).commentPosts(SocialCubit.get(context).postsIds[index], commentController.text);
+                      //                         },
+                      //                         icon: const Icon(
+                      //                           Icons.arrow_circle_left_rounded,
+                      //                           size: 35.0,
+                      //                           color: Colors.blueAccent,
+                      //                         ),
+                      //                       ),
+                      //                       hintText: 'write a comment..',
+                      //                       hintStyle: Theme.of(context).textTheme.bodyText1!.copyWith(
+                      //                         fontSize: 16.0,
+                      //                         fontWeight: FontWeight.w400,
+                      //                       ),
+                      //                       border: OutlineInputBorder(
+                      //                         borderRadius:
+                      //                         BorderRadius.circular(30.0),
+                      //                       ),
+                      //                     ),
+                      //                   ),
+                      //                 ),
+                      //
+                      //               ],
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       );
+                      //     });
 
 
 

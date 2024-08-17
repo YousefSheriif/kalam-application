@@ -64,10 +64,13 @@ class _SocialLayoutScreenState extends State<SocialLayoutScreen> with SingleTick
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: PopupMenuButton(
-                    onSelected: (value) {
-                      if (value == 'Arabic') {
+                    onSelected: (value)
+                    {
+                      if (value == 'Arabic')
+                      {
                         SocialCubit.get(context).changeLocalToAr(context);
-                      } else {
+                      } else
+                      {
                         SocialCubit.get(context).changeLocalToEn(context);
                       }
                     },
@@ -76,7 +79,8 @@ class _SocialLayoutScreenState extends State<SocialLayoutScreen> with SingleTick
                       Icons.language,
                       color: Theme.of(context).textTheme.bodyText1!.color,
                     ),
-                    itemBuilder: (context) => [
+                    itemBuilder: (context) =>
+                    [
                       PopupMenuItem(
                         value: 'Arabic',
                         child: Text(
@@ -98,7 +102,8 @@ class _SocialLayoutScreenState extends State<SocialLayoutScreen> with SingleTick
                         ),
                       ),
                     ],
-                  )),
+                  )
+              ),
               IconButton(
                   onPressed:()
               {

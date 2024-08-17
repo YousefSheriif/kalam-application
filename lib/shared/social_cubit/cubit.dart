@@ -1,3 +1,4 @@
+// new update
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -475,7 +476,7 @@ import 'package:social_app/shared/styles/iconBroken.dart';
   List<PostModel> posts = [];
   List<String> postsIds = [];
   List<int> postLikes = [];
-  List<Map<String,dynamic>> postComments = [];// واقف هنا
+  List<Map<String,dynamic>> postComments = [];
 
 
 
@@ -511,7 +512,7 @@ import 'package:social_app/shared/styles/iconBroken.dart';
             {
               comments.add(comment.data());
             });
-            postComments.add({'postId': element.id, 'comments': comments});
+            postComments.add({'postId': element.id, 'comments': comments});  //,'numberOfComments':comments.length
           }).catchError((error) {
             print("//////////////////////////////////////////////////////////////////");
             print(error.toString());
@@ -533,7 +534,6 @@ import 'package:social_app/shared/styles/iconBroken.dart';
       emit(SocialGetPostErrorState(error.toString()));
     });
   }
-
 
 
 
@@ -615,8 +615,8 @@ import 'package:social_app/shared/styles/iconBroken.dart';
     });
   }
 
-  void getComments(String postId)
-  {
+  Future <void> getComments(String postId)
+  async {
     FirebaseFirestore.instance
         .collection('posts')
         .doc(postId)
@@ -653,6 +653,17 @@ import 'package:social_app/shared/styles/iconBroken.dart';
     });
 
   }
+
+
+
+
+  void removeCommentsMap()
+  {
+    postComments = [];
+    emit(SocialRemoveCommentsState());
+  }
+
+
 
 }
 

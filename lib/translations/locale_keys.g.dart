@@ -38,5 +38,24 @@ abstract class  LocaleKeys {
   static const comments = 'comments';
   static const comment = 'comment';
   static const writeComment = 'writeComment';
+  static const whatOnMind = 'whatOnMind';
+  static const docs = 'docs';
+  static const tags = 'tags';
+  static const image = 'image';
+  static const allComments = 'allComments';
+  static const emptyComment = 'emptyComment';
+  static const noCommentYet = 'noCommentYet';
+  static const kalam = 'kalam';
+  static const editProfile = 'editProfile';
+  static const save = 'save';
+  static const yourName = 'yourName';
+  static const emptyName = 'emptyName';
+  static const yourBio = 'yourBio';
+  static const emptyBio = 'emptyBio';
+  static const yourPhone = 'yourPhone';
+  static const emptyPhone = 'emptyPhone';
+  static const createPost = 'createPost';
+  static const post = 'post';
+  static const emptyPosts = 'emptyPosts';
 
 }

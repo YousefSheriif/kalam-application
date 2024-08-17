@@ -51,7 +51,26 @@ class CodegenLoader extends AssetLoader{
   "love": "احببته ",
   "comments": " تعليق ",
   "comment": " تعليق",
-  "writeComment": "أكتب تعليقا ..."
+  "writeComment": "أكتب تعليقا ...",
+  "whatOnMind": "فيم تفكر ...",
+  "docs": "ملفات",
+  "tags": "هاشتاج",
+  "image": "صورة",
+  "allComments": " التعليقات ",
+  "emptyComment": "لا يمكن وضع تعليق فارغ!",
+  "noCommentYet": "لا يوجد تعليقات حتى الان",
+  "kalam": " كلام ",
+  "editProfile": "تعديل الملف الشخصي",
+  "save": "حفظ",
+  "yourName": "اسمك",
+  "emptyName": "لا يمكن ان يكون اسمك فارغا",
+  "yourBio": "سيرتك الذاتية",
+  "emptyBio": "لا يمكن ان تكون سيرتك الذاتية فارغة",
+  "yourPhone": "رقم الهاتف",
+  "emptyPhone": "لا يمكن ان يكون رقم الهاتف فارغ",
+  "createPost": "انشاء منشور",
+  "post": "نشر",
+  "emptyPosts": "الدنيا فاضية لسه ! "
 };
 static const Map<String,dynamic> en = {
   "sign": "Sign in now",
@@ -90,7 +109,26 @@ static const Map<String,dynamic> en = {
   "love": "Love",
   "comments": " comments",
   "comment": "Comment",
-  "writeComment": "Write a comment ..."
+  "writeComment": "Write a comment ...",
+  "whatOnMind": "What is on your mind ....",
+  "docs": "Docs",
+  "tags": "Tags",
+  "image": "Image",
+  "allComments": "Comments",
+  "emptyComment": "Can't post an empty comment!",
+  "noCommentYet": "No Comments Yet",
+  "kalam": "Kalam ",
+  "editProfile": "Edit Profile",
+  "save": "Save",
+  "yourName": "Your name",
+  "emptyName": "Your name can't be empty",
+  "yourBio": "Your bio",
+  "emptyBio": "Your bio can't be empty",
+  "yourPhone": "Phone number",
+  "emptyPhone": "Your bio can't be empty",
+  "createPost": "Create Post",
+  "post": "Post",
+  "emptyPosts": "The world is empty right now !  "
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ar": ar, "en": en};
 }

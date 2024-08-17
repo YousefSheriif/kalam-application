@@ -54,9 +54,12 @@ class ProfileScreen extends StatelessWidget {
                           radius: 65.0,
                           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                           child: CircleAvatar(
+
                             radius: 60.0,
                             // backgroundImage: AssetImage('assets/images/pic1.jpg',), //NetworkImage('assets/images/pic1.jpg')
-                            backgroundImage: NetworkImage('${userModel.image}'),
+                            backgroundImage: NetworkImage(
+                              '${userModel.image}'
+                            ),
                           ),
 
                         ),
@@ -67,11 +70,9 @@ class ProfileScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: Text(
                       '${userModel.name}',
-                      style: const TextStyle(
+                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
                         fontSize: 23.0,
                         fontWeight: FontWeight.w800,
-                        color: Colors.black,
-
                       ),
                     ),
                   ),
@@ -93,18 +94,16 @@ class ProfileScreen extends StatelessWidget {
                           child: InkWell(
                             child: Column(
                               children:
-                              const [
+                              [
                                 Text(
                                   '324',
-                                  style: TextStyle(
+                                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-
                                   ),
                                 ),
-                                SizedBox(height: 8.0,),
-                                Text(
+                                const SizedBox(height: 8.0,),
+                                const Text(
                                   'Friends',
                                   style: TextStyle(
                                     fontSize: 15.0,
@@ -123,18 +122,16 @@ class ProfileScreen extends StatelessWidget {
                           child: InkWell(
                             child: Column(
                               children:
-                              const [
+                               [
                                 Text(
                                   '44',
-                                  style: TextStyle(
+                                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-
                                   ),
                                 ),
-                                SizedBox(height: 8.0,),
-                                Text(
+                                const SizedBox(height: 8.0,),
+                                const Text(
                                   'Posts',
                                   style: TextStyle(
                                     fontSize: 15.0,
@@ -153,18 +150,17 @@ class ProfileScreen extends StatelessWidget {
                           child: InkWell(
                             child: Column(
                               children:
-                              const [
+                               [
                                 Text(
                                   '12k',
-                                  style: TextStyle(
+                                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black,
 
                                   ),
                                 ),
-                                SizedBox(height: 8.0,),
-                                Text(
+                              const SizedBox(height: 8.0,),
+                                const Text(
                                   'Followers',
                                   style: TextStyle(
                                     fontSize: 15.0,
@@ -183,18 +179,16 @@ class ProfileScreen extends StatelessWidget {
                           child: InkWell(
                             child: Column(
                               children:
-                              const [
+                              [
                                 Text(
                                   '23',
-                                  style: TextStyle(
+                                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-
                                   ),
                                 ),
-                                SizedBox(height: 8.0,),
-                                Text(
+                              const SizedBox(height: 8.0,),
+                               const Text(
                                   'Followings',
                                   style: TextStyle(
                                     fontSize: 15.0,
@@ -217,6 +211,13 @@ class ProfileScreen extends StatelessWidget {
                     [
                       Expanded(
                         child: OutlinedButton(
+                          style: ButtonStyle(
+                            side: MaterialStateProperty.all(
+                              const BorderSide(
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
                           onPressed: (){},
                           child: const Text(
                             'Add Photo',
@@ -230,6 +231,13 @@ class ProfileScreen extends StatelessWidget {
                         {
                           navigateTo(context, EditProfileScreen());
                         },
+                        style: ButtonStyle(
+                          side: MaterialStateProperty.all(
+                            const BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
                         child:const Icon(IconBroken.Edit_Square,),
                       ),
                     ],

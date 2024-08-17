@@ -35,6 +35,25 @@
   "love": "Love",
   "comments": " comments",
   "comment": "Comment",
-  "writeComment": "Write a comment ..."
+  "writeComment": "Write a comment ...",
+  "whatOnMind": "What is on your mind ....",
+  "docs": "Docs",
+  "tags": "Tags",
+  "image": "Image",
+  "allComments": "Comments",
+  "emptyComment": "Can't post an empty comment!",
+  "noCommentYet": "No Comments Yet",
+  "kalam": "Kalam ",
+  "editProfile": "Edit Profile",
+  "save": "Save",
+  "yourName": "Your name",
+  "emptyName": "Your name can't be empty",
+  "yourBio": "Your bio",
+  "emptyBio": "Your bio can't be empty",
+  "yourPhone": "Phone number",
+  "emptyPhone": "Your bio can't be empty",
+  "createPost": "Create Post",
+  "post": "Post",
+  "emptyPosts": "The world is empty right now !  "
 
 }

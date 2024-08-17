@@ -1,6 +1,9 @@
+// new update
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:social_app/modules/Social_layout/social_layout_screen.dart';
 import 'package:social_app/modules/home/social_home_screen.dart';
 import 'package:social_app/shared/components/components.dart';
@@ -8,6 +11,7 @@ import 'package:social_app/shared/social_cubit/cubit.dart';
 import 'package:social_app/shared/social_cubit/states.dart';
 import 'package:social_app/shared/styles/color.dart';
 import 'package:social_app/shared/styles/iconBroken.dart';
+import 'package:social_app/translations/locale_keys.g.dart';
 
 class NewPostScreen extends StatelessWidget {
   NewPostScreen({Key? key}) : super(key: key);
@@ -31,7 +35,7 @@ class NewPostScreen extends StatelessWidget {
       {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Create Post',
+            title: Text(LocaleKeys.createPost.tr(),
               style:Theme.of(context).textTheme.bodyText1!.copyWith(
                 fontSize: 25.0,
                 fontWeight: FontWeight.bold,
@@ -50,18 +54,20 @@ class NewPostScreen extends StatelessWidget {
                   if(formKey.currentState!.validate())
                   {
                     var now = DateTime.now();
+                    var formattedDate = DateFormat('d MMM yyyy \'at\' h:mm a','en_US').format(now);
+
                     // print(now);
                     if(SocialCubit.get(context).postImage==null)
                     {
-                      SocialCubit.get(context).createPost(dateTime: now.toString(), postText: postTextController.text,);
+                      SocialCubit.get(context).createPost(dateTime: formattedDate.toString(), postText: postTextController.text,);
                     }
                     else
                     {
-                      SocialCubit.get(context).uploadPostImage(dateTime: now.toString(), postText: postTextController.text,);
+                      SocialCubit.get(context).uploadPostImage(dateTime: formattedDate.toString(), postText: postTextController.text,);
                     }
                   }
                 },
-                text: 'Post',
+                text: LocaleKeys.post.tr(),
                 color: defaultColor,fontWeight: FontWeight.bold,fontSize: 22.0,),
               const SizedBox(width: 20.0,),
             ],
@@ -78,10 +84,10 @@ class NewPostScreen extends StatelessWidget {
                   padding: const EdgeInsetsDirectional.only(bottom: 20.0),
                   child: Row(
                     children: [
-                      const CircleAvatar(
-                        radius: 25.0,
-                        backgroundImage: AssetImage(
-                          'assets/images/pic1.jpg',
+                      CircleAvatar(
+                        radius: 22.0,
+                        backgroundImage: NetworkImage(
+                          '${SocialCubit.get(context).userModel.image}',
                         ),
                       ),
                       const SizedBox(
@@ -94,10 +100,10 @@ class NewPostScreen extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  'امن دولة',
+                                  '${SocialCubit.get(context).userModel.name}',
                                   style:
                                   Theme.of(context).textTheme.bodyText1!.copyWith(
-                                    fontSize: 23.0,
+                                    fontSize: 21.0,
                                     fontWeight: FontWeight.bold,
                                     height: 1.4,
                                   ),
@@ -108,7 +114,7 @@ class NewPostScreen extends StatelessWidget {
                                 const Icon(
                                   Icons.check_circle,
                                   color: Colors.blue,
-                                  size: 20.0,
+                                  size: 17.0,
                                 ),
                               ],
                             ),
@@ -132,7 +138,7 @@ class NewPostScreen extends StatelessWidget {
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintText:'What is on your mind ...',
+                        hintText:LocaleKeys.whatOnMind.tr(),
                         border: InputBorder.none,
                         hintStyle:Theme.of(context).textTheme.headline3!.copyWith(fontSize: 18.0, fontWeight: FontWeight.bold, height: 1.4,),
                       ),
@@ -185,12 +191,9 @@ class NewPostScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: InkWell(
-                    onTap: ()
-                    {
-                      SocialCubit.get(context).getPostImage();
-                    },
+                    onTap: () {},
                     child: Row(
-                      children:[
+                      children: [
                         Icon(
                           IconBroken.Image,
                           color: Colors.blue[700],
@@ -200,14 +203,19 @@ class NewPostScreen extends StatelessWidget {
                           width: 5.0,
                         ),
                         Text(
-                          'Image',
-                          style:Theme.of(context).textTheme.headline3!.copyWith(fontSize: 18.0,),
+                          LocaleKeys.image.tr(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline3!
+                              .copyWith(
+                            fontSize: 15.0,
+                          ),
                         ),
                         const Spacer(),
                         Container(
                           width: 1,
                           height: 35.0,
-                          color:Colors.grey[400],
+                          color: Colors.grey[400],
                         ),
                         const SizedBox(width: 18.0),
                       ],
@@ -218,7 +226,7 @@ class NewPostScreen extends StatelessWidget {
                   child: InkWell(
                     onTap: () {},
                     child: Row(
-                      children:  [
+                      children: [
                         const Icon(
                           Icons.tag,
                           color: Colors.red,
@@ -228,14 +236,19 @@ class NewPostScreen extends StatelessWidget {
                           width: 5.0,
                         ),
                         Text(
-                          'Tags',
-                          style:Theme.of(context).textTheme.headline3!.copyWith(fontSize: 18.0,),
+                          LocaleKeys.tags.tr(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline3!
+                              .copyWith(
+                            fontSize: 15.0,
+                          ),
                         ),
                         const Spacer(),
                         Container(
                           width: 1,
                           height: 35.0,
-                          color:Colors.grey[400],
+                          color: Colors.grey[400],
                         ),
                         const SizedBox(width: 18.0),
                       ],
@@ -245,7 +258,7 @@ class NewPostScreen extends StatelessWidget {
                 InkWell(
                   onTap: () {},
                   child: Row(
-                    children:  [
+                    children: [
                       const Icon(
                         IconBroken.Document,
                         color: Colors.green,
@@ -255,8 +268,13 @@ class NewPostScreen extends StatelessWidget {
                         width: 5.0,
                       ),
                       Text(
-                        'Docs',
-                        style:Theme.of(context).textTheme.headline3!.copyWith(fontSize: 18.0,),
+                        LocaleKeys.docs.tr(),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline3!
+                            .copyWith(
+                          fontSize: 15.0,
+                        ),
                       ),
                     ],
                   ),
