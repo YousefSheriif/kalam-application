@@ -54,7 +54,9 @@
   "emptyPhone": "لا يمكن ان يكون رقم الهاتف فارغ",
   "createPost": "انشاء منشور",
   "post": "نشر",
-  "emptyPosts": "الدنيا فاضية لسه ! "
+  "emptyPosts": "الدنيا فاضية لسه ! ",
+  "writeYourMessageHere": "اكتب رسالتك هنا ...",
+  "emptyMessage": "لا يمكن إرسال رسالة فارغة!"
 
 
 

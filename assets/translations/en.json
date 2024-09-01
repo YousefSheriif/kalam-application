@@ -54,6 +54,8 @@
   "emptyPhone": "Your bio can't be empty",
   "createPost": "Create Post",
   "post": "Post",
-  "emptyPosts": "The world is empty right now !  "
+  "emptyPosts": "The world is empty right now !  ",
+  "writeYourMessageHere": "write your message here ...",
+  "emptyMessage": "can't put empty message!"
 
 }

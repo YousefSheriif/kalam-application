@@ -1,4 +1,3 @@
-// new update
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -6,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:social_app/models/chat/chat_model.dart';
 import 'package:social_app/models/create_post/create_post_model.dart';
 import 'package:social_app/models/user_comment/user_comment_model.dart';
 import 'package:social_app/models/user_create/user_create_model.dart';
@@ -18,7 +18,6 @@ import 'package:social_app/modules/users/social_users_screen.dart';
 import 'package:social_app/shared/components/constant.dart';
 import 'package:social_app/shared/social_cubit/states.dart';
 import 'dart:ui' as ui;
-
 import 'package:social_app/shared/styles/iconBroken.dart';
 
 
@@ -51,6 +50,9 @@ import 'package:social_app/shared/styles/iconBroken.dart';
 
   void changeIndex(index)
   {
+    if (index==3) {
+      getAllUsers();
+    }
     currentIndex= index ;
 
     emit(AppChangeTabBarItemsState());
@@ -72,7 +74,7 @@ import 'package:social_app/shared/styles/iconBroken.dart';
     emit(ChangeLocalToEnState());
   }
 
-  late UserModel  userModel;
+  UserModel ?userModel;
   void getUserData()
   {
     emit(SocialGetUserLoadingState());
@@ -199,38 +201,6 @@ import 'package:social_app/shared/styles/iconBroken.dart';
     });
   }
 
-
-  // void updateUserData({
-  //   required String name,
-  //   required String phone,
-  //   required String bio,
-  // })
-  // {
-  //   emit(SocialUpdateUserLoadingState());
-  //
-  //   if(coverImage != null)
-  //   {
-  //     uploadCoverImage(name: name, phone: phone, bio: bio);
-  //
-  //   }
-  //   if(profileImage != null)
-  //   {
-  //     uploadProfileImage(name: name, phone: phone, bio: bio);
-  //
-  //   }
-  //   if(coverImage != null && profileImage != null)
-  //   {
-  //     uploadCoverImage(name: name, phone: phone, bio: bio);
-  //     uploadProfileImage(name: name, phone: phone, bio: bio);
-  //   }
-  //   else
-  //   {
-  //     updateUser(name: name, phone: phone, bio: bio);
-  //   }
-  // }
-
-
-
   void updateUser({
     required String name,
     required String phone,
@@ -243,15 +213,15 @@ import 'package:social_app/shared/styles/iconBroken.dart';
 
     UserModel model = UserModel(
       name: name,
-      email: userModel.email,
+      email: userModel?.email,
       phone: phone,
-      uId: userModel.uId,
+      uId: userModel?.uId,
       bio: bio,
-      image:profile ??userModel.image,
-      cover:cover?? userModel.cover,
+      image:profile ??userModel?.image,
+      cover:cover?? userModel?.cover,
     );
 
-    FirebaseFirestore.instance.collection('users').doc(userModel.uId).update(model.toMap()).then((value)
+    FirebaseFirestore.instance.collection('users').doc(userModel?.uId).update(model.toMap()).then((value)
     {
       getUserData();
     }).catchError((error)
@@ -259,9 +229,6 @@ import 'package:social_app/shared/styles/iconBroken.dart';
       emit(SocialUpdateUserErrorState());
     });
   }
-
-
-// create post
 
 
   var  postImage ;
@@ -337,12 +304,16 @@ import 'package:social_app/shared/styles/iconBroken.dart';
     emit(SocialCreatePostLoadingState());
 
     PostModel model = PostModel(
-      name: userModel.name,
-      uId: userModel.uId,
-      image:userModel.image ,
+      name: userModel?.name,
+      uId: userModel?.uId,
+      image:userModel?.image ,
       dateTime: dateTime,
       postImage:postImage??'' ,
       postText: postText,
+      postId: 'postText',
+      commentsNumbers: 0,
+      likesNumbers: 0,
+      iLikedThisPost: false,
 
     );
 
@@ -350,7 +321,7 @@ import 'package:social_app/shared/styles/iconBroken.dart';
         .add(model.toMap())
         .then((value)
     {
-      getPosts();
+      newGetPosts();
       emit(SocialCreatePostSuccessState());
 
     }).catchError((error)
@@ -360,231 +331,143 @@ import 'package:social_app/shared/styles/iconBroken.dart';
   }
 
 
-
-
-
-
-  // void getPostsssss() //دي بتاعتي انا مش شغالة
-  // {
+  // List<int> numberOfLikesPerPost = [];
+  // List<int> numberOfCommentsPerPost = [];
+  // List<PostModel> posts = [];
+  // Map<String,bool> fav = {};
+  // void getPosts() {
   //   emit(SocialGetPostLoadingState());
   //   FirebaseFirestore.instance.collection('posts').get().then((value)
   //   {
+  //     posts= [];
+  //     postsIds = [];
+  //     numberOfLikesPerPost = [];
+  //     numberOfCommentsPerPost = [];
+  //
   //     value.docs.forEach((element)
   //     {
   //
-  //       element.reference.collection('likes').get().then((value)
+  //       element.reference.collection('comments').get().then((commentValue)
   //       {
-  //         postLikes.add(value.docs.length);
+  //         numberOfCommentsPerPost.add(commentValue.docs.length);
+  //       });
   //
+  //       element.reference.collection('likes').get().then((likeValue)
+  //       {
+  //         numberOfLikesPerPost.add(likeValue.docs.length);
   //         postsIds.add(element.id);
   //         posts.add(PostModel.fromJson(element.data()));
-  //
-  //         // Check if the current user liked this post
-  //         bool isLiked = value.docs.any((like) => like.id == userModel.uId && like.data()['like'] == true);
-  //
-  //         // Add to the 'fav' map
+  //         bool isLiked = likeValue.docs.any((like) => like.id == userModel?.uId && like.data()['like'] == true);
   //         fav[element.id] = isLiked;
   //
-  //         // normal way
-  //         //bool isLiked = value.docs.any((like) {
-  //         //   // Check if the document ID matches userModel.uId
-  //         //   bool hasMatchingId = like.id == userModel.uId;
+  //
+  //
+  //         // // Listen for comments in real-time
+  //         // element.reference.collection('comments').snapshots().listen((commentValue) {
+  //         //   int postIndex = postsIds.indexOf(element.id);
   //         //
-  //         //   // Check if the 'like' field is set to true
-  //         //   bool isLikeTrue = like['like'] == true;
-  //         //
-  //         //   // Return true only if both conditions are met
-  //         //   return hasMatchingId && isLikeTrue;
+  //         //   if (postIndex >= 0)
+  //         //   {
+  //         //     if (numberOfCommentsPerPost.length <= postIndex)
+  //         //     {
+  //         //       numberOfCommentsPerPost.add(commentValue.docs.length);
+  //         //     }
+  //         //     else
+  //         //     {
+  //         //       numberOfCommentsPerPost[postIndex] = commentValue.docs.length;
+  //         //     }
+  //         //     emit(SocialGetPostSuccessState());
+  //         //   }
   //         // });
   //
-  //
-  //       })
-  //       .catchError((error)
+  //         emit(SocialGetPostSuccessState());
+  //       }).catchError((error)
   //       {
   //         print(error.toString());
   //         emit(SocialGetPostErrorState(error.toString()));
   //       });
-  //       emit(SocialGetPostSuccessState());
   //     });
-  //   })
-  //       .catchError((error)
-  //   {
+  //   }).catchError((error) {
   //     print(error.toString());
   //     emit(SocialGetPostErrorState(error.toString()));
   //   });
-  //
   // }
 
 
-
-
-
-
-  // دول عشان اعمل لايك ويسمع في الداتابيز وبعدين اجيب عددهم
-
-  // void likePosts(String postId)
-  // {
-  //   fav[postId] = !fav[postId]!;
-  //   emit(SocialChangePostLikeState());
-  //   FirebaseFirestore.instance.collection('posts').doc(postId).collection('likes').doc(userModel.uId).set({'like':true})
-  //       .then((value)
-  //   {
-  //     getLikesNum();
-  //     emit(SocialPostLikeSuccessState());
-  //   }).catchError((error){
-  //     print(error.toString());
-  //     emit(SocialPostLikeErrorState(error.toString()));
-  //   });
-  // }
-
-
-
-
-
-  // void getLikesNum()
-  // {
-  //   FirebaseFirestore.instance.collection('posts').get().then((value)
-  //   {
-  //     value.docs.forEach((element)
-  //     {
-  //
-  //       element.reference.collection('likes').get().then((value)
-  //       {
-  //         postLikes.add(value.docs.length);
-  //       }).catchError((error)
-  //       {
-  //         print(error.toString());
-  //         emit(SocialGetLikeNumErrorState());
-  //       });
-  //       emit(SocialGetLikeNumSuccessState());
-  //     });
-  //   });
-  //
-  // }
-
-
-
-
-
-
-
-
-
-
-
-
-  List<PostModel> posts = [];
+  List<PostModel>newPosts=[];
   List<String> postsIds = [];
-  List<int> postLikes = [];
-  List<Map<String,dynamic>> postComments = [];
 
 
-
-  // Get Posts
-  // Get each Post Likes
-  // Get Posts
-
-  Map<String,bool> fav = {};
-  void getPosts() { //دي بتاعت gpt
+  void newGetPosts() {
     emit(SocialGetPostLoadingState());
-    FirebaseFirestore.instance.collection('posts').get().then((value)
-    {
-      posts= [];
-      postsIds = [];
-      postLikes = [];
-      postComments = [];
-
-      value.docs.forEach((element)
+    FirebaseFirestore.instance.collection('posts')
+        .snapshots()
+        .listen((event) async {
+          newPosts=[];
+          postsIds = [];
+          event.docs.forEach((element) async
       {
-        element.reference.collection('likes').get().then((likeValue)
-        {
-          postLikes.add(likeValue.docs.length);
-          postsIds.add(element.id);
-          posts.add(PostModel.fromJson(element.data()));
-          bool isLiked = likeValue.docs.any((like) => like.id == userModel.uId && like.data()['like'] == true);
-          fav[element.id] = isLiked;
+        postsIds.add(element.id);
+        newPosts.add(PostModel.fromJson(element.data()));
 
-          // Fetch comments for this post
-          element.reference.collection('comments').get().then((commentValue)
-          {
-            List<Map<String, dynamic>> comments = [];
-            commentValue.docs.forEach((comment)
-            {
-              comments.add(comment.data());
-            });
-            postComments.add({'postId': element.id, 'comments': comments});  //,'numberOfComments':comments.length
-          }).catchError((error) {
-            print("//////////////////////////////////////////////////////////////////");
-            print(error.toString());
-            print("//////////////////////////////////////////////////////////////////");
-            emit(SocialGetPostErrorState(error.toString()));
+        element.reference.collection('likes').snapshots().listen((event) {
+           FirebaseFirestore.instance.collection('posts').doc(element.id).update({
+            'likesNumbers':event.docs.length,
+            'postId':element.id,
           });
-
-
-          emit(SocialGetPostSuccessState());
-        }).catchError((error) {
-          print("//////////////////////////////////////////////////////////////////");
-          print(error.toString());
-          print("//////////////////////////////////////////////////////////////////");
-          emit(SocialGetPostErrorState(error.toString()));
         });
-      });
-    }).catchError((error) {
-      print(error.toString());
-      emit(SocialGetPostErrorState(error.toString()));
+        element.reference.collection('comments').snapshots().listen((event) {
+          FirebaseFirestore.instance.collection('posts').doc(element.id).update({
+            'commentsNumbers':event.docs.length,
+            'postId':element.id,
+          });
+        });
+        });
+      emit(SocialGetPostSuccessState());
     });
   }
 
 
 
+  void newLikePosts(String postId) {
+    FirebaseFirestore.instance.collection('posts').doc(postId).get().then((value)
+    {
+      bool isCurrentlyLiked = value.data()?['iLikedThisPost'] ?? false;
 
-
-  void likePosts(String postId)
-  {
-    bool isCurrentlyLiked = fav[postId] ?? false;
-    fav[postId] = !isCurrentlyLiked; // Toggle the like status locally
-
-    emit(SocialChangePostLikeState());
-
-    FirebaseFirestore.instance.collection('posts').doc(postId).collection('likes').doc(userModel.uId)
-        .set({'like': !isCurrentlyLiked}) // Toggle the like status in Firestore
-        .then((value) {
-      if (isCurrentlyLiked)
+      FirebaseFirestore.instance.collection('posts').doc(postId).update({
+        'iLikedThisPost': !isCurrentlyLiked,
+      }).then((_)
       {
-        // If post was already liked, decrease the local likes count
-        postLikes[postsIds.indexOf(postId)]--;
-      } else
+        if (isCurrentlyLiked)
+        {
+          value.reference.collection('likes').doc(userModel?.uId).delete().then((_)
+          {
+            emit(SocialDeleteMySuccessState());
+          }).catchError((error) {
+            print("Error deleting like: ${error.toString()}");
+            emit(SocialPostLikeErrorState(error.toString()));
+          });
+        }
+        else
+        {
+          value.reference.collection('likes').doc(userModel?.uId).set({'like': true}).then((_) {
+            emit(SocialPostLikeSuccessState());
+          }).catchError((error) {
+            print("Error adding like: ${error.toString()}");
+            emit(SocialPostLikeErrorState(error.toString()));
+          });
+        }
+      }).catchError((error)
       {
-        // If post was not liked, increase the local likes count
-        postLikes[postsIds.indexOf(postId)]++;
-      }
-
-      emit(SocialPostLikeSuccessState());
-    }).catchError((error) {
-      print(error.toString());
+        print("Error updating like status: ${error.toString()}");
+        emit(SocialPostLikeErrorState(error.toString()));
+      });
+    }).catchError((error)
+    {
+      print("Error fetching post: ${error.toString()}");
       emit(SocialPostLikeErrorState(error.toString()));
     });
   }
-
-
-
-//ده كنت بجرب لماادوس على لايك يتغير والعكس صحيح
-
-// void changeIcon()
-// {
-//   if(isLike==true)
-//   {
-//     commentIcon = Icons.heart_broken_sharp;
-//     isLike= false;
-//     emit(SocialChangeLikeIconSuccessState());
-//   }
-//   else
-//   {
-//     commentIcon = IconBroken.Heart;
-//     isLike = true;
-//     emit(SocialChangeLikeIconSuccessState());
-//   }
-// }
 
 
 
@@ -593,9 +476,9 @@ import 'package:social_app/shared/styles/iconBroken.dart';
     emit(SocialPostCommentLoadingState());
 
     CommentModel commentModel = CommentModel(
-      name: userModel.name,
-      image:userModel.image,
-      uId: userModel.uId,
+      name: userModel?.name,
+      image:userModel?.image,
+      uId: userModel?.uId,
       postId: postId,
       dateTime:DateTime.now().toString(),
       commentText:  commentText,
@@ -615,53 +498,94 @@ import 'package:social_app/shared/styles/iconBroken.dart';
     });
   }
 
+  
+  List<CommentModel> singlePostComments = [];
   Future <void> getComments(String postId)
   async {
+
     FirebaseFirestore.instance
         .collection('posts')
         .doc(postId)
         .collection('comments')
-        .get()
-        .then((value)
+        .orderBy('dateTime')
+        .snapshots()
+        .listen((event)
     {
+      singlePostComments = [];
+      event.docs.forEach((element)
+          {
+            singlePostComments.add(CommentModel.fromJson(element.data()));
+          });
+          emit(SocialGetCommentSuccessState());
+    });
+  }
 
-      List<Map<String, dynamic>> comments = [];
-      value.docs.forEach((comment)
+
+  List<UserModel> ? users ;
+  void getAllUsers()
+  {
+    users=[];
+    FirebaseFirestore.instance.collection('users').get().then((value)
+    {
+      value.docs.forEach((element)
       {
-        comments.add(comment.data());
-        // print('hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
-        // print(comment.data());
-        // print('hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
-        // postComments.add({'postId': postId, 'comments': comments});
-
-        int postIndex = postsIds.indexOf(postId);
-        if (postIndex != -1)
+        if(element.data()['uId']!=userModel?.uId)
         {
-          postComments[postIndex] = {'postId': postId, 'comments': comments};
+          users?.add(UserModel.fromJson(element.data()));
         }
       });
-      // print('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq');
-      // printFullText(postComments.toString());
-      // print('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq');
-      emit(SocialGetCommentSuccessState());
 
+      emit(SocialGetAllUsersSuccessState());
     }).catchError((error)
     {
       print(error.toString());
-      emit(SocialGetCommentErrorState(error.toString()));
+      emit(SocialGetAllUsersErrorState());
+    });
+  }
 
+
+
+  void sendMessage({required String? receiverUid,required String message,required String dateTime})
+  {
+    ChatModel model = ChatModel(
+      dateTime: dateTime,
+      message: message,
+      senderId: userModel!.uId,
+      receiverId: receiverUid,
+    );
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userModel!.uId)
+        .collection('chats')
+        .doc(receiverUid)
+        .collection('messages')
+        .add(model.toMap())
+        .then((value)
+    {
+      emit(SocialSendMessageSuccessState());
+    }).catchError((error)
+    {
+      emit(SocialSendMessageErrorState());
     });
 
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(receiverUid)
+        .collection('chats')
+        .doc(userModel!.uId)
+        .collection('messages')
+        .add(model.toMap())
+        .then((value)
+    {
+      emit(SocialSendMessageSuccessState());
+    }).catchError((error)
+    {
+      emit(SocialSendMessageErrorState());
+    });
   }
 
 
-
-
-  void removeCommentsMap()
-  {
-    postComments = [];
-    emit(SocialRemoveCommentsState());
-  }
 
 
 

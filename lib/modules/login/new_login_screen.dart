@@ -9,6 +9,7 @@ import 'package:social_app/modules/login/login_cubit/states.dart';
 import 'package:social_app/modules/register/new_register_screen.dart';
 import 'package:social_app/shared/app_mode_cubit/mode_cubit.dart';
 import 'package:social_app/shared/components/components.dart';
+import 'package:social_app/shared/components/constant.dart';
 import 'package:social_app/shared/network/local/cache_helper.dart';
 import 'package:social_app/shared/social_cubit/cubit.dart';
 import 'package:social_app/shared/styles/color.dart';
@@ -33,9 +34,11 @@ class SocialLoginNewScreen extends StatelessWidget {
           {
             CacheHelper.saveData(key: 'uId', value: state.uId).then((value)
             {
-              // ShopCubit.get(context).getUserData();   // verrrrrrrrrrrry importaaaaaaaaant
+              uId = state.uId;
+              SocialCubit.get(context).getUserData();   // verrrrrrrrrrrry importaaaaaaaaant
               navigateAndFinish(context, const SocialLayoutScreen());
             });
+            // SocialCubit.get(context).getUserData();   // verrrrrrrrrrrry importaaaaaaaaant
             navigateAndFinish(context, const SocialLayoutScreen(),);
           }
           else if(state is SocialLoginErrorState)

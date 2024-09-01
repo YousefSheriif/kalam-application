@@ -24,19 +24,19 @@ class EditProfileScreen extends StatelessWidget {
         dynamic coverImage = SocialCubit.get(context).coverImage;
         dynamic profilePic;
         if (profileImage == null) {
-          profilePic = NetworkImage('${userModel.image}');
+          profilePic = NetworkImage('${userModel?.image}');
         } else {
           profilePic = FileImage(profileImage);
         }
 
         dynamic coverPic;
         if (coverImage == null) {
-          coverPic = NetworkImage('${userModel.cover}');
+          coverPic = NetworkImage('${userModel?.cover}');
         } else {
           coverPic = FileImage(coverImage);
         }
 
-        nameController.text = userModel.name!;
+        nameController.text = userModel!.name!;
         bioController.text = userModel.bio!;
         phoneController.text = userModel.phone!;
         return Scaffold(

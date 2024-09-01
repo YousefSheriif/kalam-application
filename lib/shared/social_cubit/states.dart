@@ -82,6 +82,8 @@ class SocialPostLikeSuccessState extends SocialAppStates{}
 
 class SocialChangePostLikeState extends SocialAppStates{}
 
+class SocialDeleteMySuccessState extends SocialAppStates{}
+
 class SocialPostLikeErrorState extends SocialAppStates
 {
   final String error ;
@@ -119,7 +121,19 @@ class SocialGetCommentErrorState extends SocialAppStates
 
 class SocialRemoveCommentsState extends SocialAppStates{}
 
+class SocialGetAllUsersLoadingState extends SocialAppStates{}
 
+class SocialGetAllUsersSuccessState extends SocialAppStates{}
+
+class SocialGetAllUsersErrorState extends SocialAppStates{}
+
+class SocialSendMessageSuccessState extends SocialAppStates{}
+
+class SocialSendMessageErrorState extends SocialAppStates{}
+
+class SocialGetAllMessagesSuccessState extends SocialAppStates{}
+
+class SocialGetAllMessagesErrorState extends SocialAppStates{}
 
 
 

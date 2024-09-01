@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/modules/Social_layout/social_layout_screen.dart';
+import 'package:social_app/modules/chat_messages/chat_messages_screen.dart';
+import 'package:social_app/modules/chats/social_chats_screen.dart';
 import 'package:social_app/modules/home/social_home_screen.dart';
 import 'package:social_app/modules/login/new_login_screen.dart';
 import 'package:social_app/modules/login/shop_login_screen.dart';
@@ -35,6 +37,10 @@ void main() async
 
   bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
   uId = CacheHelper.getData(key: 'uId');
+
+  print("vvvvvvvvvvvvvvvvvvvvvvvvv");
+  print(uId);
+  print("vvvvvvvvvvvvvvvvvvvvvvvvv");
 
 
 
@@ -92,7 +98,14 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (BuildContext context)
             {
-              return SocialCubit()..getUserData()..getPosts();
+
+              if (uId==null)
+              {
+                return SocialCubit()..newGetPosts();
+              } else
+              {
+                return SocialCubit()..getUserData()..newGetPosts();
+              }
             }
         ),
       ],
@@ -128,4 +141,13 @@ class MyApp extends StatelessWidget {
 
 // Firebase Mail
 // yousef@gmail.com
+// mohamed@gmail.com
+// abdo@gmail.com
+// nono@gmail.com
 // 123456
+
+
+// git add .
+// git status
+// git commit -m "commnts are added"
+// git push origin master

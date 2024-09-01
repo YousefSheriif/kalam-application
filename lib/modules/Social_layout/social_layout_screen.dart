@@ -5,6 +5,7 @@ import 'package:social_app/modules/notifications/social_notifications_screen.dar
 import 'package:social_app/modules/search/social_search_screen.dart';
 import 'package:social_app/shared/app_mode_cubit/mode_cubit.dart';
 import 'package:social_app/shared/components/components.dart';
+import 'package:social_app/shared/components/constant.dart';
 import 'package:social_app/shared/social_cubit/cubit.dart';
 import 'package:social_app/shared/social_cubit/states.dart';
 import 'package:social_app/shared/styles/color.dart';
@@ -55,6 +56,13 @@ class _SocialLayoutScreenState extends State<SocialLayoutScreen> with SingleTick
               style: TextStyle(letterSpacing:3.1,wordSpacing: 5.0,fontSize: 30.0),
             ): null,
             actions:tabController!.index==0? [
+              IconButton(onPressed: ()
+              {
+                signOut(context);
+                SocialCubit.get(context).currentIndex = 0;
+              },
+                icon: Icon(Icons.login_sharp,color: Theme.of(context).textTheme.bodyText1!.color,),
+              ),
               IconButton(onPressed: ()
               {
                 ModeCubit.get(context).changeAppMode();

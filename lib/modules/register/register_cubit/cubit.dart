@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,13 +50,13 @@ class SocialRegisterCubit extends Cubit<SocialRegisterStates> {
       phone: phone,
       uId: uId,
       bio: 'write your bio ...',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Unknown_person.jpg',
-      cover: 'bhmpics.com/downloads/hd-social-backgrounds/3.12.jpg',//https://www.bhmpics.com/downloads/hd-social-backgrounds/36.wp9546909.jpg
+      image: 'https://firebasestorage.googleapis.com/v0/b/social-app-f5d14.appspot.com/o/users%2FUnknown_person.jpg?alt=media&token=74fa539e-4b53-4e6b-a0cc-001ca3369466',
+      cover: 'https://firebasestorage.googleapis.com/v0/b/social-app-f5d14.appspot.com/o/users%2F3.12.jpg?alt=media&token=784c9142-b000-4c1a-b175-8c67f547c1c5',//https://www.bhmpics.com/downloads/hd-social-backgrounds/36.wp9546909.jpg
     );
 
     FirebaseFirestore.instance.collection('users').doc(uId).set(model.toMap()).then((value)
     {
-      emit(SocialCreateUserSuccessState());
+      emit(SocialCreateUserSuccessState(uId));
     }).catchError((error) {
       print(error.toString());
       emit(SocialCreateUserErrorState(error.toString()));

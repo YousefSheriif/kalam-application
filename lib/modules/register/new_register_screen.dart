@@ -11,6 +11,8 @@ import 'package:social_app/modules/register/register_cubit/states.dart';
 import 'package:social_app/modules/register/shop_register_screen.dart';
 import 'package:social_app/shared/app_mode_cubit/mode_cubit.dart';
 import 'package:social_app/shared/components/components.dart';
+import 'package:social_app/shared/components/constant.dart';
+import 'package:social_app/shared/network/local/cache_helper.dart';
 import 'package:social_app/shared/social_cubit/cubit.dart';
 import 'package:social_app/shared/styles/color.dart';
 import 'package:social_app/translations/locale_keys.g.dart';
@@ -33,10 +35,20 @@ class SocialRegisterNewScreen extends StatelessWidget {
         listener: (context, state)
         {
           if(state is SocialCreateUserSuccessState)
-          {
-            navigateAndFinish(context, const SocialLayoutScreen(),);
-            // showToast(message: state.error, state: ToastStates.ERROR);
-          }
+            {
+              CacheHelper.saveData(key: 'uId', value: state.uId).then((value)
+              {
+                uId = state.uId;
+                SocialCubit.get(context).getUserData();   // verrrrrrrrrrrry importaaaaaaaaant
+                navigateAndFinish(context, const SocialLayoutScreen());
+              });
+              // SocialCubit.get(context).getUserData();   // verrrrrrrrrrrry importaaaaaaaaant
+              navigateAndFinish(context, const SocialLayoutScreen(),);
+            }
+            else if(state is SocialCreateUserErrorState)
+            {
+              showToast(message: state.error, state: ToastStates.ERROR);
+            }
         },
         builder: (context, state) {
           return Scaffold(

@@ -44,7 +44,7 @@ class ProfileScreen extends StatelessWidget {
                               ),
                               image: DecorationImage(
                                 // image: AssetImage('assets/images/pic2.jpg',),
-                                image: NetworkImage('${userModel.cover}'),
+                                image: NetworkImage('${userModel?.cover}'),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -58,7 +58,7 @@ class ProfileScreen extends StatelessWidget {
                             radius: 60.0,
                             // backgroundImage: AssetImage('assets/images/pic1.jpg',), //NetworkImage('assets/images/pic1.jpg')
                             backgroundImage: NetworkImage(
-                              '${userModel.image}'
+                              '${userModel?.image}'
                             ),
                           ),
 
@@ -69,7 +69,7 @@ class ProfileScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: Text(
-                      '${userModel.name}',
+                      '${userModel?.name}',
                       style: Theme.of(context).textTheme.bodyText1!.copyWith(
                         fontSize: 23.0,
                         fontWeight: FontWeight.w800,
@@ -77,7 +77,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${userModel.bio}',
+                    '${userModel?.bio}',
                     style: const TextStyle(
                       fontSize: 17.0,
                       fontWeight: FontWeight.bold,

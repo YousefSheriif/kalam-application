@@ -87,7 +87,7 @@ class NewPostScreen extends StatelessWidget {
                       CircleAvatar(
                         radius: 22.0,
                         backgroundImage: NetworkImage(
-                          '${SocialCubit.get(context).userModel.image}',
+                          '${SocialCubit.get(context).userModel?.image}',
                         ),
                       ),
                       const SizedBox(
@@ -100,7 +100,7 @@ class NewPostScreen extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  '${SocialCubit.get(context).userModel.name}',
+                                  '${SocialCubit.get(context).userModel?.name}',
                                   style:
                                   Theme.of(context).textTheme.bodyText1!.copyWith(
                                     fontSize: 21.0,
