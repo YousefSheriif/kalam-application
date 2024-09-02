@@ -17,7 +17,7 @@ class ChatsScreen extends StatelessWidget {
       builder: (context, state)
       {
         return ConditionalBuilder(
-          condition:SocialCubit.get(context).users!.isNotEmpty,
+          condition:SocialCubit.get(context).users!.isNotEmpty && SocialCubit.get(context).usersChatItems!.isNotEmpty,
           builder: (context)
           {
             return Scaffold(
@@ -133,14 +133,14 @@ class ChatsScreen extends StatelessWidget {
                         shrinkWrap: true,
                         itemBuilder: (context , index )
                         {
-                          return buildChatItem(context) ;
+                          return buildChatItem(SocialCubit.get(context).usersChatItems![index],context) ;
 
                         },
                         separatorBuilder: (context ,index)
                         {
                           return const SizedBox(height: 15.0,);
                         },
-                        itemCount: 12,
+                        itemCount: SocialCubit.get(context).usersChatItems!.length,
                       ),
                     ],
                   ),
@@ -154,11 +154,12 @@ class ChatsScreen extends StatelessWidget {
     );
   }
 
-  Widget buildStoryItem(UserModel model, context)
+  Widget buildStoryItem(UserModel? model, context)
   {
     return  InkWell(
       onTap: ()
       {
+        // SocialCubit.get(context).getChatMessages(model!.uId);
         navigateTo(context, ChatMessagesScreen(model));
       },
       child: SizedBox(
@@ -172,7 +173,7 @@ class ChatsScreen extends StatelessWidget {
                 CircleAvatar(
                   radius: 28.5,
                   backgroundColor: Colors.black,
-                  backgroundImage: NetworkImage('${model.image}'),
+                  backgroundImage: NetworkImage('${model?.image}'),
                 ),
                 const CircleAvatar(
                   radius: 8.5,
@@ -185,7 +186,7 @@ class ChatsScreen extends StatelessWidget {
               ],
             ),
             Text(
-              '${model.name}',
+              '${model?.name}',
               style: const TextStyle(
                 color: Colors.black,
               ),
@@ -198,18 +199,19 @@ class ChatsScreen extends StatelessWidget {
     ) ;
   }
 
-  Widget buildChatItem(context)
+  Widget buildChatItem(UserModel? model,context)
   {
     return  InkWell(
       onTap: ()
       {
-         // navigateTo(context, ChatMessagesScreen());
+        navigateTo(context, ChatMessagesScreen(model));
       },
       child: Row(
         children: [
-          const CircleAvatar(
+          CircleAvatar(
             radius: 25.5,
-            backgroundColor: Colors.black,
+            // backgroundColor: Colors.black,
+            backgroundImage: NetworkImage('${model!.image}'),
           ),
           const SizedBox(
             width: 10.0,
@@ -218,9 +220,9 @@ class ChatsScreen extends StatelessWidget {
             child:Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Yousef sherif mohamed',
-                  style: TextStyle(
+                Text(
+                  '${model.name}',
+                  style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 17.0,
@@ -230,11 +232,11 @@ class ChatsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 7.0,),
                 Row(
-                  children: const [
+                  children: [
                     Expanded(
                       child:Text(
-                        'Hello my name is yousef and welcome back with flutter ',
-                        style: TextStyle(
+                        '${model.lastMessageChat}',
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 14.0,
                         ),
@@ -242,13 +244,13 @@ class ChatsScreen extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 7.0),
                       child: CircleAvatar(radius: 4.0,backgroundColor: Colors.black,),
                     ),
                     Text(
-                      '11:48 am',
-                      style: TextStyle(
+                      '${model.date} at ${model.time} ',
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 13.0,
                       ),
@@ -264,5 +266,4 @@ class ChatsScreen extends StatelessWidget {
       ),
     ) ;
   }
-
 }

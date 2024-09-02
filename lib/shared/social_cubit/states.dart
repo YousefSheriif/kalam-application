@@ -133,7 +133,9 @@ class SocialSendMessageErrorState extends SocialAppStates{}
 
 class SocialGetAllMessagesSuccessState extends SocialAppStates{}
 
-class SocialGetAllMessagesErrorState extends SocialAppStates{}
+class SocialUserChatItemSuccessState extends SocialAppStates{}
+
+class SocialGetChatItemsSuccessState extends SocialAppStates{}
 
 
 

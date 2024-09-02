@@ -50,8 +50,10 @@ import 'package:social_app/shared/styles/iconBroken.dart';
 
   void changeIndex(index)
   {
-    if (index==3) {
+    if (index==3)
+    {
       getAllUsers();
+      getChatItems();
     }
     currentIndex= index ;
 
@@ -410,7 +412,8 @@ import 'package:social_app/shared/styles/iconBroken.dart';
         postsIds.add(element.id);
         newPosts.add(PostModel.fromJson(element.data()));
 
-        element.reference.collection('likes').snapshots().listen((event) {
+        element.reference.collection('likes').snapshots().listen((event)
+        {
            FirebaseFirestore.instance.collection('posts').doc(element.id).update({
             'likesNumbers':event.docs.length,
             'postId':element.id,
@@ -545,13 +548,17 @@ import 'package:social_app/shared/styles/iconBroken.dart';
 
 
 
-  void sendMessage({required String? receiverUid,required String message,required String dateTime})
+  void sendMessage({required String? name,required String? image,required String? receiverUid,required String message,required String dateTime,required String date,required String time})
   {
     ChatModel model = ChatModel(
+      name: name,
+      image: image,
       dateTime: dateTime,
       message: message,
       senderId: userModel!.uId,
       receiverId: receiverUid,
+      date: date,
+      time: time,
     );
 
     FirebaseFirestore.instance
@@ -584,6 +591,89 @@ import 'package:social_app/shared/styles/iconBroken.dart';
       emit(SocialSendMessageErrorState());
     });
   }
+
+  List<ChatModel> chatMessages=[];
+
+   void getChatMessages(String receiverUid)
+  {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userModel!.uId)
+        .collection('chats')
+        .doc(receiverUid)
+        .collection('messages')
+        .orderBy('dateTime')
+        .snapshots()
+        .listen((event)
+    {
+      chatMessages.clear();
+
+      event.docs.forEach((element)
+      {
+        chatMessages.add(ChatModel.fromJson(element.data()));
+      });
+      // print('******************************************');
+      // print(event.docs.last.data()['message']);
+      // print('******************************************');
+
+      emit(SocialGetAllMessagesSuccessState());
+    });
+
+FirebaseFirestore.instance
+    .collection('users')
+    .doc(userModel!.uId)
+    .collection('chats')
+    .doc(receiverUid)
+    .collection('messages')
+    .orderBy('dateTime')
+    .snapshots()
+    .listen((event)
+{
+  if(event.docs.isNotEmpty)
+  {
+    FirebaseFirestore.instance.collection('users').doc(receiverUid).update({
+      'isTalkToMe':true,
+      'lastMessageChat':event.docs.last.data()['message'],
+      'dateTime':event.docs.last.data()['dateTime'],
+      'date':event.docs.last.data()['date'],
+      'time':event.docs.last.data()['time'],
+    });
+  }else
+  {
+    FirebaseFirestore.instance.collection('users').doc(receiverUid).update({
+      'isTalkToMe':false,
+    });
+  }
+  emit(SocialUserChatItemSuccessState());
+});
+
+  }
+
+
+
+  List<UserModel> ? usersChatItems = [] ;
+  void getChatItems()
+  {
+    FirebaseFirestore.instance
+        .collection('users')
+        .orderBy('dateTime',descending: true)
+        .snapshots()
+        .listen((event)
+    {
+      usersChatItems!.clear();
+      event.docs.forEach((element)
+      {
+        if(element.data()['isTalkToMe']==true)
+        {
+          usersChatItems?.add(UserModel.fromJson(element.data()));
+        }
+      });
+      emit(SocialGetChatItemsSuccessState());
+    });
+
+  }
+
+
 
 
 

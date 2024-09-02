@@ -4,7 +4,10 @@ class ChatModel
   String? receiverId;
   String? dateTime;
   String? message;
+  String? name;
   String? image;
+  String? date;
+  String? time;
 
 
   ChatModel({
@@ -12,7 +15,10 @@ class ChatModel
     this.receiverId,
     this.dateTime,
     this.message,
+    this.name,
     this.image,
+    this.date,
+    this.time,
   });
 
   ChatModel.fromJson(Map<String,dynamic>? json)
@@ -21,7 +27,10 @@ class ChatModel
     receiverId = json['receiverId'];
     dateTime = json['dateTime'];
     message = json['message'];
+    name = json['name'];
     image = json['image'];
+    date = json['date'];
+    time = json['time'];
   }
 
 
@@ -33,7 +42,10 @@ class ChatModel
       'receiverId':receiverId,
       'dateTime':dateTime,
       'message':message,
+      'name':name,
       'image':image,
+      'date':date,
+      'time':time,
     };
   }
 

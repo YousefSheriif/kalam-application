@@ -7,6 +7,12 @@ class UserModel
   String? image;
   String? cover;
   String? bio;
+  bool? isTalkToMe;
+  String? lastMessageChat;
+  String? dateTime;
+  String? date;
+  String? time;
+
 
   UserModel({
     this.name,
@@ -16,6 +22,11 @@ class UserModel
     this.image,
     this.cover,
     this.bio,
+    this.isTalkToMe,
+    this.lastMessageChat,
+    this.dateTime,
+    this.date,
+    this.time,
 });
 
   UserModel.fromJson(Map<String,dynamic>? json)
@@ -27,6 +38,11 @@ class UserModel
     image = json['image'];
     cover = json['cover'];
     bio = json['bio'];
+    isTalkToMe = json['isTalkToMe'];
+    lastMessageChat = json['lastMessageChat'];
+    dateTime = json['dateTime'];
+    date = json['date'];
+    time = json['time'];
   }
 
 
@@ -40,6 +56,11 @@ class UserModel
       'image':image,
       'cover':cover,
       'bio':bio,
+      'isTalkToMe':isTalkToMe,
+      'lastMessageChat':lastMessageChat,
+      'dateTime':dateTime,
+      'date':date,
+      'time':time,
   };
 }
 
